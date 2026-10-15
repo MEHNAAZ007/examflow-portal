@@ -397,8 +397,10 @@ def register():
         flash("Use your full name, a valid email address, a role, and an 8-character password.", "error")
         return redirect(url_for("login"))
     invite_code = app.config["TEACHER_INVITE_CODE"]
-    is_hosted = os.environ.get("RENDER", "").lower() == "true"
-    if role == "teacher" and ((invite_code and not secrets.compare_digest(teacher_code, invite_code)) or (is_hosted and not invite_code)):
+    # A portal administrator can set TEACHER_INVITE_CODE in production to
+    # restrict teacher registration. Leaving it unset keeps initial setup
+    # straightforward for a new deployment with multiple teachers.
+    if role == "teacher" and invite_code and not secrets.compare_digest(teacher_code, invite_code):
         flash("A valid teacher invite code is required to create a teacher account.", "error")
         return redirect(url_for("login"))
     try:
