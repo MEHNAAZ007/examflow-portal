@@ -23,11 +23,13 @@ waitress-serve --host=0.0.0.0 --port=8000 app:app
 
 For a cloud host, use its assigned port instead of `8000`. Configure a persistent disk/volume for the `instance/` directory; SQLite data is otherwise lost on many deployments.
 
-## Render deployment
+## Free Render demo deployment
 
 1. Push this project to a private GitHub repository. The included `render.yaml` creates the service configuration.
 2. In Render, choose **New** → **Blueprint**, select the repository, and enter the prompted secret values. Do not enter SMTP credentials in GitHub.
-3. Choose an always-on paid plan and retain the persistent disk. Render assigns a public `onrender.com` URL after the first successful deploy.
+3. The included `render.yaml` uses Render Free and gives you a public `onrender.com` link after deployment.
+
+The free version is for demonstration only: it sleeps after inactivity, its local SQLite database can be erased when it restarts, and it cannot run dependable one-hour email reminders. In-app class notifications still work whenever students open the app. Change to a paid plan plus persistent storage before using it for a real school.
 
 ## 3. Reminder worker
 
