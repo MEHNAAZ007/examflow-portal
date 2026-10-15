@@ -1,0 +1,14 @@
+# Local data, user uploads, and secrets must never be committed.
+instance/
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+
+# Editor / OS files
+.vscode/
+.idea/
+Thumbs.db

@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: examflow
+    runtime: python
+    # Use a paid always-on plan so reminder emails continue while your laptop is off.
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: waitress-serve --host=0.0.0.0 --port=$PORT app:app
+    healthCheckPath: /health
+    disk:
+      name: examflow-data
+      mountPath: /opt/render/project/src/instance
+      sizeGB: 1
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: APP_TIMEZONE
+        value: Asia/Kolkata
+      - key: START_SCHEDULER
+        value: "true"
+      - key: TEACHER_INVITE_CODE
+        sync: false
+      - key: MAIL_SERVER
+        sync: false
+      - key: MAIL_PORT
+        value: "587"
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+      - key: MAIL_USE_TLS
+        value: "true"

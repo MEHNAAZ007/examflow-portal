@@ -1,0 +1,9 @@
+{
+  "name": "ExamFlow Assessment Hub",
+  "short_name": "ExamFlow",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e8f5f4",
+  "theme_color": "#197d7b",
+  "icons": [{"src": "/static/examflow-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}]
+}

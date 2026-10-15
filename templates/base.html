@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#197d7b">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>{% block title %}ExamFlow{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='claymorphism.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='layout-fix.css') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='examflow-icon.svg') }}">
+</head>
+<body class="{{ 'dashboard-page' if user and request.endpoint != 'login' else 'auth-page' }}">
+{% set app_page = user and request.endpoint != 'login' %}
+{% if app_page %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="{{ workspace_url('home') }}"><span class="brand-mark">E</span><span>ExamFlow<small>ASSESSMENT HUB</small></span></a>
+    <nav class="side-nav">
+      <p>WORKSPACE</p>
+      <a class="{{ 'active' if request.endpoint in ['teacher_dashboard','student_dashboard'] else '' }}" href="{{ workspace_url('teacher_dashboard') if user.role == 'teacher' else workspace_url('student_dashboard') }}"><i data-lucide="layout-dashboard"></i>Overview</a>
+      {% if user.role == 'teacher' %}
+      <a href="{{ workspace_url('teacher_dashboard') }}#generator"><i data-lucide="wand-sparkles"></i>Question studio</a>
+      <a href="{{ workspace_url('teacher_dashboard') }}#assessments"><i data-lucide="clipboard-list"></i>Assessments</a>
+      {% else %}
+      <a href="{{ workspace_url('student_dashboard') }}#assessments"><i data-lucide="clipboard-check"></i>My assessments</a>
+      <a href="{{ workspace_url('student_dashboard') }}#results"><i data-lucide="chart-no-axes-column"></i>My results</a>
+      {% endif %}
+    </nav>
+    <div class="sidebar-help"><i data-lucide="sparkles"></i><strong>Ready for the next step?</strong><span>Everything you need to run a focused assessment.</span></div>
+    <a class="profile" href="{{ workspace_url('logout') }}"><span>{{ user.name[0] }}</span><div><strong>{{ user.name }}</strong><small>Sign out</small></div><i data-lucide="log-out"></i></a>
+  </aside>
+  <div class="app-content">
+    <header class="mobile-top"><a class="brand" href="{{ workspace_url('home') }}"><span class="brand-mark">E</span> ExamFlow</a><a href="{{ workspace_url('logout') }}">Sign out</a></header>
+{% endif %}
+<main class="page">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+{% if app_page %}</div><nav class="mobile-nav" aria-label="Mobile navigation"><a href="{{ workspace_url('teacher_dashboard') if user.role == 'teacher' else workspace_url('student_dashboard') }}"><i data-lucide="layout-dashboard"></i><span>Home</span></a>{% if user.role == 'teacher' %}<a href="{{ workspace_url('teacher_dashboard') }}#classes"><i data-lucide="users-round"></i><span>Classes</span></a><a href="{{ workspace_url('teacher_dashboard') }}#generator"><i data-lucide="wand-sparkles"></i><span>Create</span></a>{% else %}<a href="{{ workspace_url('student_dashboard') }}#assessments"><i data-lucide="clipboard-check"></i><span>Assessments</span></a><a href="{{ workspace_url('student_dashboard') }}#results"><i data-lucide="chart-no-axes-column"></i><span>Results</span></a>{% endif %}</nav></div>{% endif %}
+<script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('{{ url_for('static', filename='service-worker.js') }}');</script>
+</body>
+</html>

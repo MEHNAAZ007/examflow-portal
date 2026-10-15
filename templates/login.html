@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Sign in | ExamFlow{% endblock %}
+{% block content %}
+<section class="auth-shell">
+  <div class="auth-intro">
+    <span class="auth-shape shape-one"></span><span class="auth-shape shape-two"></span>
+    <a class="brand light" href="{{ url_for('login') }}"><span class="brand-mark">E</span> ExamFlow</a>
+    <p class="eyebrow">ACADEMIC ASSESSMENT, REFINED</p>
+    <h1>Examinations that feel effortlessly organized.</h1>
+    <p>Create smart question papers, schedule assessments, and keep every result in one calm, focused workspace.</p>
+    <div class="mini-stats"><div><strong>20</strong><span>questions per test</span></div><div><strong>100%</strong><span>private workspace</span></div></div>
+  </div>
+  <div class="auth-card">
+    <div class="card-heading"><p class="eyebrow">WELCOME BACK</p><h2>{{ 'Teacher' if selected_role == 'teacher' else 'Student' }} sign in</h2><p>Choose a workspace, then sign in with that account.</p></div>
+    <form method="post" class="form-stack">
+      <input type="hidden" name="next" value="{{ next_url }}">
+      <fieldset class="role-field"><legend>Account type</legend><div class="role-switch"><input type="radio" name="role" value="student" id="student" {{ 'checked' if selected_role == 'student' }}><label for="student">Student</label><input type="radio" name="role" value="teacher" id="teacher" {{ 'checked' if selected_role == 'teacher' }}><label for="teacher">Teacher</label></div></fieldset>
+      <label>Email<input type="email" name="email" placeholder="you@college.edu" required></label>
+      <label>Password<input type="password" name="password" placeholder="Your password" required></label>
+      <button class="button primary" type="submit">Sign in <span>&rarr;</span></button>
+    </form>
+    <details><summary>New here? Create an account</summary><form action="{{ url_for('register') }}" method="post" class="form-stack register"><label>Full name<input name="name" required></label><label>Real email address<input name="email" type="email" placeholder="you@example.com" required></label><label>Account type<select name="role"><option value="student">Student</option><option value="teacher">Teacher</option></select></label><label>Teacher invite code <small>(if your institution has one)</small><input name="teacher_code" type="password"></label><label>Password<input name="password" type="password" minlength="8" required></label><button class="button secondary" type="submit">Create account</button></form></details>
+    <p class="demo-note"><strong>Real accounts only</strong><span>Use the email address where you want assessment notifications delivered.</span></p>
+  </div>
+</section>
+{% endblock %}
