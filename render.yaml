@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: examflow
+    name: examflow-portal-mehnaaz007
     runtime: python
     # Free demo deployment: the service sleeps when idle and local SQLite data
     # is temporary. Use this only for presentation/testing, not production.
@@ -13,7 +13,5 @@ services:
         generateValue: true
       - key: APP_TIMEZONE
         value: Asia/Kolkata
-      - key: START_SCHEDULER
-        value: "true"
       - key: START_SCHEDULER
         value: "false"
